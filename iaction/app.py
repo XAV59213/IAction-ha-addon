@@ -14,26 +14,31 @@ logger = logging.getLogger(__name__)
 RTSP_URL = os.getenv("DEFAULT_RTSP_URL", "rtsp://192.168.0.180/live")
 RTSP_USERNAME = os.getenv("RTSP_USERNAME", "freeboxcam")
 RTSP_PASSWORD = urllib.parse.quote(os.getenv("RTSP_PASSWORD", "RUSA%2BqgD"))
+STREAMING_ENABLED = os.getenv("STREAMING_ENABLED", "true").lower() == "true"
 
 def generate_hls_stream():
     """Génère un flux HLS à partir du flux RTSP."""
+    if not STREAMING_ENABLED:
+        logger.error("Streaming désactivé dans la configuration")
+        yield b"Streaming désactivé"
+        return
+
     logger.info(f"Starting HLS stream for {RTSP_URL}")
     command = [
         "ffmpeg",
         "-i", f"rtsp://{RTSP_USERNAME}:{RTSP_PASSWORD}@{RTSP_URL.split('://')[1]}",
-        "-c:v", "copy",  # Copier le flux vidéo sans ré-encodage
-        "-c:a", "aac",   # Encoder l'audio en AAC
-        "-f", "hls",     # Format HLS
-        "-hls_time", "2",  # Durée des segments HLS (2 secondes)
-        "-hls_list_size", "3",  # Nombre de segments dans la playlist
-        "-hls_flags", "delete_segments",  # Supprimer les anciens segments
-        "-hls_segment_filename", "/tmp/stream_%03d.ts",  # Fichiers temporaires
-        "/tmp/stream.m3u8"  # Fichier de playlist HLS
+        "-c:v", "copy",
+        "-c:a", "aac",
+        "-f", "hls",
+        "-hls_time", "2",
+        "-hls_list_size", "3",
+        "-hls_flags", "delete_segments",
+        "-hls_segment_filename", "/tmp/stream_%03d.ts",
+        "/tmp/stream.m3u8"
     ]
 
     try:
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        # Attendre que le fichier playlist soit créé
         while not os.path.exists("/tmp/stream.m3u8"):
             pass
 
