@@ -19,3 +19,8 @@ map:
   - data:rw
 ports:
   5002/tcp: 5002
+network_mode: host
+options:
+  STREAMING_ENABLED: true
+schema:
+  STREAMING_ENABLED: bool
