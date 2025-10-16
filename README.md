@@ -1,4 +1,4 @@
-﻿# IAction Home Assistant Add-ons Repository
+# IAction Home Assistant Add-ons Repository
 
 This repository hosts the IAction Camera AI add-on for Home Assistant. The add-on is published as a standard Supervisor add-on with ingress and MQTT integration.
 
