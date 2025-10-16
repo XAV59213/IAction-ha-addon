@@ -12,7 +12,7 @@ arch:
 startup: services
 init: false
 ingress: true
-webui: "http://[HOST]:[PORT:5002]"
+webui: "http://[HOST]:[PORT:5002]/admin"
 panel_icon: mdi:camera
 panel_title: IAction
 map:
