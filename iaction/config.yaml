@@ -1,6 +1,6 @@
 name: IAction
 slug: iaction
-version: "2.1"
+version: "2.2"
 description: "Image analysis (RTSP or HA polling) with AI + MQTT, web UI, and Home Assistant integration"
 url: "https://github.com/lfpoulain/iaction-ha-addon"
 auth_api: false
