@@ -11,7 +11,7 @@ arch:
   - armv7
 startup: services
 init: false
-ingress: false
+ingress: true
 webui: "http://[HOST]:[PORT:5002]"
 panel_icon: mdi:camera
 panel_title: IAction
